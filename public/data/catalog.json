@@ -1,0 +1,51 @@
+{
+  "downloadedAt": "2026-10-16T01:10:46.341Z",
+  "crs": "EPSG:4326",
+  "originalCRS": "EPSG:31983",
+  "referenceYear": null,
+  "accessConstraints": "GetCapabilities sem restrição declarada; licença específica não informada. Confirmar termos na PBH antes de redistribuição comercial.",
+  "datasets": [
+    {
+      "id": "bairros",
+      "layer": "BAIRRO_OFICIAL",
+      "count": 323,
+      "source": "https://bhmap.pbh.gov.br/v2/api/idebhgeo/wfs",
+      "status": "available"
+    },
+    {
+      "id": "parques",
+      "layer": "PARQUES_MUNICIPAIS",
+      "count": 84,
+      "source": "https://bhmap.pbh.gov.br/v2/api/idebhgeo/wfs",
+      "status": "available"
+    },
+    {
+      "id": "saude",
+      "layer": "CENTRO_SAUDE",
+      "count": 160,
+      "source": "https://bhmap.pbh.gov.br/v2/api/idebhgeo/wfs",
+      "status": "available"
+    },
+    {
+      "id": "escolas",
+      "layer": "ESCOLAS_MUNICIPAIS_ENSINO_FUNDAMENTAL",
+      "count": 180,
+      "source": "https://bhmap.pbh.gov.br/v2/api/idebhgeo/wfs",
+      "status": "available"
+    },
+    {
+      "id": "ciclovias",
+      "layer": "ROTA_CICLOVIARIA",
+      "count": 973,
+      "source": "https://bhmap.pbh.gov.br/v2/api/idebhgeo/wfs",
+      "status": "available"
+    },
+    {
+      "id": "municipio",
+      "source": "https://servicodados.ibge.gov.br/api/v3/malhas/municipios/3106200?formato=application/vnd.geo+json&qualidade=intermediaria",
+      "count": 1,
+      "status": "available",
+      "quality": "Malha simplificada, qualidade intermediária; inadequada para cadastro de lotes."
+    }
+  ]
+}
