@@ -21,6 +21,8 @@ npm run build
 
 O build gera `out/`, pronto para hospedagem estática. O arquivo `.babelrc` usa o compilador Babel para compatibilidade com o ambiente Windows de execução. O inicializador em `scripts/build.mjs` aplica uma alternativa síncrona para operações de sistema de arquivos que retornem EPERM no ambiente restrito Windows, preservando a resolução de links e as permissões do sistema. Em PowerShell com restrição de scripts, use `npm.cmd`.
 
+O inicializador também copia o worker original do MapLibre e sua licença para `public/`, preservando o módulo sem transformações de Babel. Esses dois arquivos são gerados a partir da dependência instalada e incluídos na exportação estática. O contêiner do mapa mantém posição absoluta e acompanha alterações de tamanho por ResizeObserver.
+
 ## Funcionalidades
 
 - Limite municipal IBGE 3106200, independente da região metropolitana.
@@ -46,7 +48,7 @@ node --use-system-ca scripts/ingest.mjs
 
 `public/data/catalog.json` registra a data real da coleta em UTC. A interface converte a data para America/Sao_Paulo. O serviço não informa ano de referência nesta extração: não confundir coleta com atualização da fonte. `docs/wfs-capabilities.xml` preserva as capacidades consultadas. A ausência de restrição declarada não é licença explícita de redistribuição: consultar metadados e condições PBH antes de uso comercial. A malha simplificada IBGE não serve para cadastro de lotes. Quantidades de feições são contagens da extração, sem afirmar cobertura completa ou situação atual de funcionamento.
 
-Limite municipal: API de malhas IBGE v3, município 3106200, qualidade intermediária. Base raster: © OpenStreetMap (ODbL), © CARTO, com atribuição visível. Endereços: © OpenStreetMap/Nominatim, enviados apenas após ação do usuário, sem autocomplete externo. Escolas não incluem toda a rede educacional; centros de saúde não incluem toda a rede hospitalar. Rotas podem ter diferentes situações cadastrais: ver atributos.
+Limite municipal: API de malhas IBGE v3, município 3106200, qualidade intermediária. Base vetorial escura: OpenFreeMap / © OpenMapTiles, com dados © OpenStreetMap (ODbL). Base raster clara: © OpenStreetMap, com atribuição visível. O estilo Dark do OpenFreeMap é incluído em `public/data/basemap-dark.json`; veja https://openfreemap.org/quick_start/. Camadas de extrusão são excluídas para evitar edifícios sem alturas verificadas. A opção clara também serve como alternativa quando o serviço vetorial falha. Endereços: © OpenStreetMap/Nominatim, enviados apenas após ação do usuário, sem autocomplete externo. Escolas não incluem toda a rede educacional; centros de saúde não incluem toda a rede hospitalar. Rotas podem ter diferentes situações cadastrais: ver atributos.
 
 ## Arquitetura
 
@@ -76,7 +78,7 @@ Nenhuma URL de repositório GitHub é presumida. A publicação via Sites utiliz
 ## Aceitação manual
 
 1. Abrir mapa e confirmar limite pontilhado municipal e atribuição.
-2. Pesquisar Centro e selecionar; verificar destaque e painel correspondente.
+2. Pesquisar Sion e selecionar; verificar destaque e painel correspondente. Bairros cadastrais oficiais podem ter nomes diferentes dos bairros populares.
 3. Ativar cada camada; selecionar parque ou equipamento, ler seus atributos e fonte.
 4. Recolher painéis e testar zoom, rotação, norte e medição com dois cliques.
 5. Pesquisar endereço com Enter; falha externa deve produzir aviso sem apagar dados locais.

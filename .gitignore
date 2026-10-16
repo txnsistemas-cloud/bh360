@@ -2,5 +2,7 @@ node_modules/
 .next/
 out/
 *.tsbuildinfo
+public/maplibre-gl-worker.mjs
+public/maplibre-license.txt
 .env*.local
 .openai/local*
