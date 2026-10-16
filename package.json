@@ -1,0 +1,29 @@
+{
+  "name": "bh360",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --dev",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "data:refresh": "node --use-system-ca scripts/ingest.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.4",
+    "@turf/area": "7.2.0",
+    "@turf/bbox": "7.2.0",
+    "lucide-react": "0.468.0",
+    "maplibre-gl": "^6.14.0",
+    "next": "16.4.2",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/geojson": "7946.0.16",
+    "@types/node": "20.17.6",
+    "@types/react": "19.1.16",
+    "typescript": "5.8.2"
+  }
+}
