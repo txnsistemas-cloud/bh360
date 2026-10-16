@@ -186,6 +186,8 @@ export default function Explorer() {
       return;
     }
     map.current = m;
+    const resizeObserver = new ResizeObserver(() => m.resize());
+    resizeObserver.observe(container.current);
     m.addControl(
       new maplibregl.ScaleControl({ unit: "metric" }),
       "bottom-left",
@@ -385,6 +387,7 @@ export default function Explorer() {
     });
     return () => {
       stopped = true;
+      resizeObserver.disconnect();
       m.remove();
       map.current = null;
     };
@@ -781,13 +784,13 @@ export default function Explorer() {
                 <button
                   onClick={() => {
                     const f = collections.current.bairros?.features.find(
-                      (f) => normalize(featureName(f)) === "centro",
+                      (f) => normalize(featureName(f)) === "sion",
                     );
                     if (f) focus({ feature: f, layer: "bairros" });
                     else setTab("bairros");
                   }}
                 >
-                  Explorar o Centro <ArrowUpRight size={16} />
+                  Explorar o Sion <ArrowUpRight size={16} />
                 </button>
                 <div className="contour c1" />
                 <div className="contour c2" />
