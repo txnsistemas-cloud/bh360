@@ -36,7 +36,9 @@ import type { Feature, FeatureCollection } from "geojson";
 import bbox from "@turf/bbox";
 import area from "@turf/area";
 import { normalize, featureName, distanceKm } from "../lib/geo.mjs";
+import darkStyle from "../public/data/basemap-dark.json";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const darkBase = darkStyle as unknown as maplibregl.StyleSpecification;
 const definitions = [
   {
     id: "bairros",
@@ -162,20 +164,22 @@ export default function Explorer() {
         minZoom: 8,
         maxZoom: 19,
         style: {
+          ...darkBase,
           version: 8,
           sources: {
+            ...darkBase.sources,
             base: {
               type: "raster",
-              tiles: [
-                "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-                "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-              ],
+              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
               tileSize: 256,
               attribution:
-                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>',
+                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             },
           },
-          layers: [{ id: "base", type: "raster", source: "base" }],
+          layers: [
+            ...darkBase.layers.filter((layer) => layer.type !== "fill-extrusion"),
+            { id: "base", type: "raster", source: "base", layout: { visibility: "none" } },
+          ],
         },
         attributionControl: { compact: true },
       });
@@ -195,6 +199,10 @@ export default function Explorer() {
     m.on("mousemove", (e) => setCoords([e.lngLat.lng, e.lngLat.lat]));
     let tileWarned = false;
     m.on("error", (e) => {
+      if ("sourceId" in e && e.sourceId === "openmaptiles" && m.getLayer("base")) {
+        m.setLayoutProperty("base", "visibility", "visible");
+        setBase("claro");
+      }
       if (!tileWarned) {
         tileWarned = true;
         setError(
@@ -723,7 +731,7 @@ export default function Explorer() {
               <h3>Origem verificável</h3>
               <p>
                 Limite municipal: IBGE. Bairros e equipamentos: PBH/BHGEO. Mapa
-                base: OpenStreetMap/CARTO.
+                base: OpenStreetMap / OpenFreeMap.
               </p>
               <button className="primary" onClick={() => setModal("fontes")}>
                 Consultar catálogo <ArrowUpRight size={16} />
@@ -1161,13 +1169,7 @@ export default function Explorer() {
                       key={v}
                       onClick={() => {
                         setBase(v);
-                        (
-                          map.current?.getSource(
-                            "base",
-                          ) as maplibregl.RasterTileSource
-                        )?.setTiles([
-                          `https://a.basemaps.cartocdn.com/${v === "claro" ? "light_all" : "dark_all"}/{z}/{x}/{y}.png`,
-                        ]);
+                        map.current?.setLayoutProperty("base", "visibility", v === "claro" ? "visible" : "none");
                       }}
                     >
                       <MapIcon />
@@ -1241,7 +1243,7 @@ export default function Explorer() {
                   termos para redistribuição comercial.
                 </p>
                 <p>
-                  Base: © OpenStreetMap (ODbL), © CARTO. Endereços: Nominatim,
+                  Base: © OpenStreetMap (ODbL), © OpenMapTiles / OpenFreeMap. Endereços: Nominatim,
                   consulta acionada pelo usuário, sem autocomplete externo.
                   Município e região metropolitana são territórios distintos.
                 </p>
