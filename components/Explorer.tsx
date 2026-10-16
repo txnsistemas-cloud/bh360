@@ -151,10 +151,7 @@ export default function Explorer() {
     if (!container.current) return;
     let stopped = false;
     maplibregl.setWorkerUrl(
-      new URL(
-        "maplibre-gl/dist/maplibre-gl-worker.mjs",
-        import.meta.url,
-      ).toString(),
+      `${basePath}/maplibre-gl-worker.mjs?v=${maplibregl.getVersion()}`,
     );
     let m: GLMap;
     try {
