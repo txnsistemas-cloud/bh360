@@ -150,6 +150,12 @@ export default function Explorer() {
   useEffect(() => {
     if (!container.current) return;
     let stopped = false;
+    maplibregl.setWorkerUrl(
+      new URL(
+        "maplibre-gl/dist/maplibre-gl-worker.mjs",
+        import.meta.url,
+      ).toString(),
+    );
     let m: GLMap;
     try {
       m = new maplibregl.Map({
