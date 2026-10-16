@@ -55,7 +55,7 @@ button:hover {
   overflow: hidden;
   position: relative;
 }
-.map {
+.app .map {
   position: absolute;
   inset: 74px 0 34px 65px;
   background: #17232a;
@@ -1262,7 +1262,7 @@ button:hover {
   .search input {
     font-size: 11px;
   }
-  .map,
+  .app .map,
   .map-shade {
     inset: 118px 0 74px;
   }
