@@ -1,5 +1,16 @@
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { mkdirSync, copyFileSync } from "node:fs";
+// Keep the self-contained module worker untouched by Babel. Next exports public assets.
+mkdirSync(new URL("../public/", import.meta.url), { recursive: true });
+copyFileSync(
+  new URL("../node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url),
+  new URL("../public/maplibre-gl-worker.mjs", import.meta.url),
+);
+copyFileSync(
+  new URL("../node_modules/maplibre-gl/LICENSE.txt", import.meta.url),
+  new URL("../public/maplibre-license.txt", import.meta.url),
+);
 const compatibility = fileURLToPath(
   new URL("./windows-realpath.cjs", import.meta.url),
 );
